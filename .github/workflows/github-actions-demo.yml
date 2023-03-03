@@ -11,9 +11,11 @@ jobs:
     runs-on: drshrey/polaroid-builder
     steps:
       - name: Run builder
-        run: ./polaroid-builder
+        run: node server.js
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DOCKER_USERNAME: drshrey
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           REPO_NAME: ${{ github.repository }}
   test:
     runs-on: polaroid-example-rails-app
