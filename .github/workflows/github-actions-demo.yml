@@ -7,17 +7,16 @@ on:
     branches: [ main ]
 
 jobs:
-  test:
-
-    runs-on: ubuntu-latest
-
+  build:
+    runs-on: drshrey/polaroid-builder
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@359bebbc29cbe6c87da6bc9ea3bc930432750108
-        with:
-          ruby-version: '2.7.2'
-      - name: Install dependencies
-        run: bundle install
+      - name: Run builder
+        run: ./polaroid-builder
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO_NAME: ${{ github.repository }}
+  test:
+    runs-on: polaroid-example-rails-app
+    steps:
       - name: Run tests
-        run: bundle exec rake
+        run: bundle exec rspec
